@@ -41,7 +41,7 @@ const server = async () => {
     const PORT = process.env.PORT || 3001;
     const MONGO_CONNECTION =
       process.env.MONGO_CONNECTION ||
-      "mongodb+srv://maheshguptaa563:ABHImahi%4063@cluster0.yahawxi.mongodb.net/?retryWrites=true&w=majority";
+      "mongodb+srv://maheshguptaa563:ABHImahi%40563@cluster0.yahawxi.mongodb.net/?retryWrites=true&w=majority";
     await mongoose.connect(MONGO_CONNECTION, {
       useNewUrlParser: true,
     });
@@ -50,7 +50,7 @@ const server = async () => {
       console.log("Server started on ", PORT);
     });
   } catch (error) {
-    console.log("Error", error);
+    console.log("DB CONNECTION ERROR", error);
   }
 };
 
