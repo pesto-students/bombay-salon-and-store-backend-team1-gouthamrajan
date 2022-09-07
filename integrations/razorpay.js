@@ -1,19 +1,20 @@
 const Razorpay = require('razorpay')
 const shortid = require('shortid');
+const OrderModel = require('../models/Booking/schema');
 const BookingModel = require('../models/Booking/schema');
-
+const CartModel = require('../models/Cart/schema')
 const razorpay = new Razorpay({
 	key_id: process.env.RAZORPAY_KEY_ID,
 	key_secret: process.env.RAZORPAY_KEY_SECRET
 });
 
 
-exports.createOrder = async (amount) => {
+exports.createOrder = async (amount, order_type) => {
 	try {
 		const options = {
 			amount: amount * 100,
 			currency: 'INR',
-			receipt: shortid.generate()
+			receipt: `${order_type}:${shortid.generate()}`
 		}
 		const order = await razorpay.orders.create(options)
 		return order
@@ -33,12 +34,25 @@ exports.verifyPayment = async (req, res, next) => {
 		if (digest === req.headers['x-razorpay-signature']) {
 			console.log('request is legit')
 			// process it
-			const booking = await BookingModel.findOne({
-				'payment_details.receipt': req.body.receipt
-			});
-			booking.payment_status = 'paid';
-			booking.payment_details = req.body;
-			await booking.save()
+			const { receipt } = req.body; 
+			const paymentType = receipt.split(':')[0] // will be either order or booking
+			let paymentEntity
+			if(paymentType === 'order') {
+				paymentEntity = await OrderModel.findOne({
+					'payment_details.receipt': req.body.receipt
+				});
+			} else {
+				paymentEntity = await BookingModel.findOne({
+					'payment_details.receipt': req.body.receipt
+				});
+			}
+			if(!paymentEntity) return res.status(400).json({ message: 'Invalid booking/order id'})
+			paymentEntity.payment_status = 'paid';
+			paymentEntity.payment_details = req.body;
+			await paymentEntity.save();
+			// clear cart after payment success;
+			const userCart = await CartModel.findOne({ user_id: paymentEntity.user_id });
+			await userCart.delete();
 			return res.json({ status: 'ok' })
 		} else {
 			// pass it

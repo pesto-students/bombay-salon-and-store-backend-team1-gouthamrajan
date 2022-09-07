@@ -39,3 +39,8 @@ To get all bookings on app side we can access it at the below endpoint
 `<DOMAIN>/app/bookings`
 Same on the admin side would be
 `<DOMAIN/admin/bookings`
+
+Run node build_db.js to setup mock data
+
+Emaily
+Hubspot

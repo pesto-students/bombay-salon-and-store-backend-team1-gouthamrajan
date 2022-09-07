@@ -58,9 +58,9 @@ exports.cartHandler = async (req,res,next) => {
 		const { operation, product_id } = body;
 		let cart;
 		if(operation === CART_OPERATIONS.ADD_TO_CART) {
-			cart = await addToCart(product_id, user.user_id)
+			cart = await addToCart(product_id, user.id)
 		} else if(operation === CART_OPERATIONS.REMOVE_FROM_CART) {
-			cart = await removeFromCart(product_id, user.user_id)
+			cart = await removeFromCart(product_id, user.id)
 		} else {
 			return res.status(400).json({ message: 'Invalid cart action'})
 		}
@@ -73,7 +73,7 @@ exports.cartHandler = async (req,res,next) => {
 exports.getCart = async (req, res, next) => {
 	try {
 		const { user } = req;
-		const cart = await getUserCart(user.user_id);
+		const cart = await getUserCart(user.id);
 		return res.json({ cart })
 	} catch (error) {
 		next(error)
