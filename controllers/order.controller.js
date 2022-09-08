@@ -19,13 +19,14 @@ exports.createOrder = async (req, res, next) => {
 			product: product._id
 		}
 		const order = new OrderModel(orderObj);
-		await order.save();
 		const _order = await RazorpayService.createOrder(body.amount, 'order'); 
+		order.rzp_order_id = _order.id;
+		await order.save();
 		return res.status(201).json({
 			order, _order
 		})
 	} catch (error) {
-		console.log(error);
+		next(error)
 	}
 
 }

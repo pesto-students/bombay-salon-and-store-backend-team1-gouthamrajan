@@ -30,8 +30,9 @@ exports.createBooking = async (req, res, next) => {
 			service: service._id
 		}
 		const booking = new BookingModel(bookingObj);
-		await booking.save();
 		const _order = await RazorpayService.createOrder(body.amount, 'booking');
+		booking.rzp_order_id = _order.id;
+		await booking.save();
 		return res.status(201).json({
 			booking, _order
 		})

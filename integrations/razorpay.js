@@ -19,6 +19,7 @@ exports.createOrder = async (amount, order_type) => {
 		const order = await razorpay.orders.create(options)
 		return order
 	} catch (error) {
+		console.log(error)
 		throw new Error(error)
 	}
 }
@@ -34,18 +35,18 @@ exports.verifyPayment = async (req, res, next) => {
 		if (digest === req.headers['x-razorpay-signature']) {
 			console.log('request is legit')
 			// process it
-			const { receipt } = req.body; 
-			const paymentType = receipt.split(':')[0] // will be either order or booking
+			const { payload } = req.body; 
+			const { order_id } =  payload.payment.entity
 			let paymentEntity
-			if(paymentType === 'order') {
-				paymentEntity = await OrderModel.findOne({
-					'payment_details.receipt': req.body.receipt
-				});
-			} else {
+			paymentEntity = await OrderModel.findOne({
+				'rzp_order_id': order_id
+			});
+			if(!paymentEntity) {
 				paymentEntity = await BookingModel.findOne({
-					'payment_details.receipt': req.body.receipt
+					'rzp_order_id': order_id
 				});
 			}
+				
 			if(!paymentEntity) return res.status(400).json({ message: 'Invalid booking/order id'})
 			paymentEntity.payment_status = 'paid';
 			paymentEntity.payment_details = req.body;

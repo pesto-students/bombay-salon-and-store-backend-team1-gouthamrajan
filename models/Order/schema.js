@@ -18,7 +18,8 @@ const orderSchema = new mongoose.Schema({
 	product: { type: productSchema, required: true },
 	amount: {type: Number, default: 0 },
 	payment_status: { type : String, default: 'unpaid' },
-	payment_details: { type: Object, default: {} }
+	payment_details: { type: Object, default: {} },
+	rzp_order_id: { type: String }
 }, {
 	timestamps: true,
 })
