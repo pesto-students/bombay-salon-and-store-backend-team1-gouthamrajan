@@ -1,6 +1,6 @@
 const Razorpay = require("razorpay");
 const shortid = require("shortid");
-const OrderModel = require("../models/Booking/schema");
+const OrderModel = require("../models/Order/schema");
 const BookingModel = require("../models/Booking/schema");
 const CartModel = require("../models/Cart/schema");
 const razorpay = new Razorpay({
@@ -33,10 +33,9 @@ exports.verifyPayment = async (req, res, next) => {
 
     if (digest === req.headers["x-razorpay-signature"]) {
       console.log("request is legit");
-      console.log(req.body);
       // process it
       const { payload } = req.body;
-      console.log(payload.payment.entity);
+      console.log(payload.payment.entity.order_id);
       const { order_id } = payload.payment.entity;
       let paymentEntity;
       paymentEntity = await OrderModel.findOne({
