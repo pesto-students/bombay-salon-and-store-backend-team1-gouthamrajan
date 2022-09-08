@@ -33,6 +33,7 @@ exports.verifyPayment = async (req, res, next) => {
 
     if (digest === req.headers["x-razorpay-signature"]) {
       console.log("request is legit");
+      console.log(req.body);
       // process it
       const { payload } = req.body;
       const { order_id } = payload.payment.entity;
