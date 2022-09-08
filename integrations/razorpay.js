@@ -36,6 +36,7 @@ exports.verifyPayment = async (req, res, next) => {
       console.log(req.body);
       // process it
       const { payload } = req.body;
+      console.log(payload.payment.entity);
       const { order_id } = payload.payment.entity;
       let paymentEntity;
       paymentEntity = await OrderModel.findOne({
