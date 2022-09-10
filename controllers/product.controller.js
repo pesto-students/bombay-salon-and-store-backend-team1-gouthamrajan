@@ -29,11 +29,7 @@ exports.addProduct = async (req, res) => {
       handleJoiError(error, res);
       return;
     }
-    const rawProduct = {
-      ...req.body,
-      image_url: `${process.env.BASE_URL}/images/${encodeURI(req.file.filename)}`
-    }
-    const product = await new ProductModel(rawProduct).save();
+    const product = await new ProductModel(req.body).save();
     res.status(201).json({
       product
     });

@@ -1,13 +1,21 @@
 const multer = require('multer')
-const path = require('path')
-const fileStorageEngine = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, path.join(__dirname, "../public/images"))
-	},
-	filename: (req, file, cb) => {
-		cb(null, Date.now() + '--' + file.originalname)
-	}
-})
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-const upload = multer({ storage: fileStorageEngine})
-module.exports = upload
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const parser = multer({
+  storage: new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+      folder: 'images',
+    }
+  })
+});
+
+
+module.exports = parser
