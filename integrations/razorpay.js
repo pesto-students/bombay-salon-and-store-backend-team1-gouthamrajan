@@ -2,6 +2,8 @@ const Razorpay = require("razorpay");
 const shortid = require("shortid");
 const OrderModel = require("../models/Order/schema");
 const BookingModel = require("../models/Booking/schema");
+const UserModel = require("../models/User/schema");
+const sendEmail = require("./email");
 const CartModel = require("../models/Cart/schema");
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -38,10 +40,12 @@ exports.verifyPayment = async (req, res, next) => {
       console.log(payload.payment.entity.order_id);
       const { order_id } = payload.payment.entity;
       let paymentEntity;
+      let isOrder = true;
       paymentEntity = await OrderModel.findOne({
         rzp_order_id: order_id,
       });
       if (!paymentEntity) {
+        isOrder = false;
         paymentEntity = await BookingModel.findOne({
           rzp_order_id: order_id,
         });
@@ -52,6 +56,17 @@ exports.verifyPayment = async (req, res, next) => {
       paymentEntity.payment_status = "paid";
       paymentEntity.payment_details = req.body;
       await paymentEntity.save();
+      const user = await UserModel.findById(paymentEntity.user_id);
+      sendEmail(
+        user.email,
+        "Thank you for your purchase with TBSS",
+        isOrder
+          ? {}
+          : { date: `${paymentEntity.date} ${paymentEntity.time_slot}` },
+        isOrder
+          ? "./integrations/email/templates/orderSuccess.handlebars"
+          : "./integrations/email/templates/bookingSuccess.handlebars"
+      );
       // clear cart after payment success;
       const userCart = await CartModel.findOne({
         user_id: paymentEntity.user_id,
