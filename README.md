@@ -1,21 +1,49 @@
-# Pesto Assignments
+# The Bombay Salon & Store
 
-Welcome to Pesto assignments.
+![tbss](https://user-images.githubusercontent.com/102403242/195076946-9931d425-e393-4fa8-9bb6-af1d680f435c.jpg)
 
+The Bombay Salon&Store is grooming & lifestyle website that serves as a one-stop solution for all grooming, needs with pre-booking features.
+No need to wait in long queues at the salon,
+Know the seat availibility pre-hand and most importantly your stylist availibility,
+Get Stylist recommended genuine products suiting your needs
 
-## How to solve assignments
+# Table of Contents
 
-Weekly Assignments will be shared by your mentor or instructor.
+1. Demo
+2. Installation
+3. Technology Stack
+4. Authors
+5. License
 
-Make sure master or main branch is protected and you are not able to push any code directly to master.
+# Demo
 
-- Clone this repo to your local.
-- Checkout to new branch for submission. Suggestion you can name new branch week wise - branch for week 1 assignment can be week1
-```bash
-git checkout -b week1
-```
-- Create Assignment week folder in root directory(if it doesn't exist) for eg. for solving week 1 assignment create folder with name "week1".
-- You can create subfolders in main week(week1) folder if required.
-- Add proper readme [(How to Write proper readme](https://meakaakka.medium.com/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3) )in week's folder or subfolder explaining about assignment, how to run assignment and any other instructions. 
-- Raise a PR against master and add your mentor as reviewer
-- Resolve PR comments if any and once your mentor approves your PR, Merge it.
+[Live Demo](https://tbss-fe.herokuapp.com/).
+
+Please Note:
+
+1. We recommend using this app in Google Chrome.
+2. Use the app on Laptop/desktop for better experience.
+
+Test Credentials :
+user : pestoproject@gmail.com
+password : 1111111
+
+# Installation
+
+- Fork or directly clone this repository to your local machine
+- Use the npm install command to install dependencies
+- Once the dependencies are finished installing, use the npm run start-dev command inside the root directory to open the app in your local browser of choice
+
+# Technology Stack
+
+- Node JS
+- Express JS
+
+# Authors
+
+- Abhijeet Chandelia
+- Mahesh Gupta
+
+# License
+
+[MIT](https://opensource.org/licenses/MIT)
