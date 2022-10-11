@@ -1,46 +1,46 @@
-### Folder structure
+#The Bombay Salon & Store
+![tbss](https://user-images.githubusercontent.com/102403242/195076946-9931d425-e393-4fa8-9bb6-af1d680f435c.jpg)
 
-##### Controllers
-Responsible for database queries. 
+The Bombay Salon&Store is grooming & lifestyle website that serves as a one-stop solution for all grooming, needs with pre-booking features.
+No need to wait in long queues at the salon,
+Know the seat availibility pre-hand and most importantly your stylist availibility,
+Get Stylist recommended genuine products suiting your needs
 
-##### Helpers
-Heplers and utils that can be used across the project
+#Table of Contents
 
-##### Models
-Mongoose models.
-Example - If you have a booking module and need a bookings table/collection. 
-Create `Booking` folder inside this folder and add two files. `schema.js` and `validators.js`. 
-Schema file contains the actual mongoose schema and validators contains various Jio validators to validate request body.
+1. Demo
+2. Installation
+3. Technology Stack
+4. Authors
+5. License
 
-#### Routes
-Main directory and little complex. We have two subdirectories to separate admin and app routes. Admin routes are basically those which can be access only by an admin. 
-##### admin
-Holds route files for admin routes. All these routes are imported in the index.js file and we export the admin router
-Example: For booking module we will create a `booking.routes.js` file and add routes whichever routes that are relavent to bookings and the admin, for example marking a booking as complete once the customer completes this service.
-After creating the `booking.routes.js` file and exporting the router, import the router in the `index.js` file. Mount the router on the route like `/booking`
-``` js
-const BookingRouter = require('./booking.routes')
-AdminRouter.use('/bookings', BookingRouter)
-```
-##### app
-Same as admin but for app routes. Routes that will be used the frontend application for user side. Routes such as getting booking, login, register, etc.
+#Demo
+[Live Demo](https://tbss-fe.herokuapp.com/).
 
-#### server.js
-Main part here is 
-```js
-const AppRouter = require('./routes/app/')
-const AdminRouter = require('./routes/admin')
-app.use('/app', AppRouter)
-app.use('/admin', AdminRouter)
-```
-We mount admin routes at `/admin` and app routes at `/app` to provide clear distinguishing between the admin and app routes. 
-Example:
-To get all bookings on app side we can access it at the below endpoint
-`<DOMAIN>/app/bookings`
-Same on the admin side would be
-`<DOMAIN/admin/bookings`
+Please Note:
 
-Run node build_db.js to setup mock data
+1. We recommend using this app in Google Chrome.
+2. Use the app on Laptop/desktop for better experience.
 
-Emaily
-Hubspot
+Test Credentials :
+user : pestoproject@gmail.com
+password : 1111111
+
+#Installation
+
+- Fork or directly clone this repository to your local machine
+- Use the npm install command to install dependencies
+- Once the dependencies are finished installing, use the npm run start-dev command inside the root directory to open the app in your local browser of choice
+
+#Technology Stack
+
+- Node JS
+- Express JS
+
+#Authors
+
+- Abhijeet Chandelia
+- Mahesh Gupta
+
+#License
+[MIT](https://opensource.org/licenses/MIT)
